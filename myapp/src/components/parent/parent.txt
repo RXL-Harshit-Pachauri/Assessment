@@ -1,0 +1,37 @@
+Scenarios for onPush Strategy: -
+1. On clicking button event , primitive and non-primitive class fields are getting updated. Click events by default mark parent component as dirty/markForCheck()
+2. As click/async operation is performed, it moves to next change detection cycle , to update bindings and view checking.
+3. It goes to zone.js where it notifies angular and run change detection mechanism.
+----------------
+There are two types of change detection Strategy i.e Default and onPush
+
+# Default : This strategy basically checks and updates view for each component in a component tree. 
+It will detect changes for both primitive and non-primitive type classFields.
+
+# onPush :  This strategy basically checks and updates view for component which are dirty. 
+Components can be marked dirty using markForCheck(). If component is not dirty, then there is no need to check and
+update view bindings of this component. This helps in performace optimization
+
+Example : Using parent and child component
+Scenario 1 - parent(onPush) and child(default) -> Both primitive and non-primitive updated.
+Scenario 2 - parent(default) and child(onPush) -> Primitive and non-primitive(if include Ln-25) updated.
+Scenario 3 - parent(onPush) and child(onPush) -> Primitive and non-primitive(if include Ln-25) updated.
+
+Explanation - 
+1. Click events by default, mark parent component as dirty/markForCheck() and child component also contains onPush strategy.
+   Then on passing values to child component via Input properties only primitive values gets updated during change detection.
+   Non-primitive values does not get updated, as there Object reference remains same. To resolve this , Ln-25 is added in 
+   parent component to change the reference , everytime the count is updated.
+2. Suppose a reactive form is there in a component , then after fetching values from api and setting these values in formControl
+   , only this component view need to be refresh. After binding value we can do markForCheck() using its componentInstance.
+    This will make sure that in next change detection cycle, this component view need to be updated.
+
+Other Scenarios - 
+1. If there is a change in some other component which triggers change detection cycle. In that cycle, as parent component
+   contains onPush strategy and also it is not markForCheck() , then parent component and its child components will not 
+   be checked. 
+2. On click handler in parent component , it will do markForCheck() for parent component and
+   all its ancestors component.
+
+
+
