@@ -1,0 +1,22 @@
+Dependency Injection - It is used to allow services and other dependencies to be injected into components
+in a modular and hierarchical way.
+-----------------------
+Angular organizes dependency injection into a tree of injectors. Each Angular module, component, and 
+directive can have its own injector, and these injectors are arranged in a hierarchical manner.
+There are mainly 2 types of Hierarchical Dependency Injection -
+
+1. Root-Level Injection (Injected in root) - It  is created when the application starts. Services 
+provided at this level are available throughout the application.
+
+2.Element Injector/Component Injector - In this, if a service is provided at the component level, 
+that instance of the service is only available to the component and its children.
+
+Benefits - 
+1.Services can be easily reused across multiple components, reducing code duplication. The same 
+instance of a service can be shared across multiple components or different instances depending
+on how the service is provided in the hierarchy.
+
+Other Scenarios - 
+1. If we use element injector in child component . It will check its providers in all its ancestors. If found,
+then returns the instance of the service , else it will check the root injector hierarchy. If does not found any 
+provider in root level hierarchy then it returns and throw Null Injector.

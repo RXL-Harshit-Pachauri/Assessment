@@ -1,0 +1,13 @@
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RootService {
+
+  constructor() { }
+
+  getMessage(message:string) {
+    return message;
+  }
+}
