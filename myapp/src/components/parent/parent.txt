@@ -14,13 +14,13 @@ update view bindings of this component. This helps in performace optimization
 
 Example : Using parent and child component
 Scenario 1 - parent(onPush) and child(default) -> Both primitive and non-primitive updated.
-Scenario 2 - parent(default) and child(onPush) -> Primitive and non-primitive(if include Ln-25) updated.
-Scenario 3 - parent(onPush) and child(onPush) -> Primitive and non-primitive(if include Ln-25) updated.
+Scenario 2 - parent(default) and child(onPush) -> Primitive and non-primitive(if include Object.assign()) updated.
+Scenario 3 - parent(onPush) and child(onPush) -> Primitive and non-primitive(if include Object.assign()) updated.
 
 Explanation - 
 1. Click events by default, mark parent component as dirty/markForCheck() and child component also contains onPush strategy.
    Then on passing values to child component via Input properties only primitive values gets updated during change detection.
-   Non-primitive values does not get updated, as there Object reference remains same. To resolve this , Ln-25 is added in 
+   Non-primitive values does not get updated, as there Object reference remains same. To resolve this , Object.assign() is added in 
    parent component to change the reference , everytime the count is updated.
 2. Suppose a reactive form is there in a component , then after fetching values from api and setting these values in formControl
    , only this component view need to be refresh. After binding value we can do markForCheck() using its componentInstance.
